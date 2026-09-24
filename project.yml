@@ -1,0 +1,72 @@
+# XcodeGen spec. Generate the project with: xcodegen generate
+name: WatchWell
+options:
+  bundleIdPrefix: com.example.watchwell
+  deploymentTarget:
+    iOS: "18.0"
+    watchOS: "11.0"
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+
+targets:
+  WatchWelliOS:
+    type: application
+    platform: iOS
+    sources:
+      - WatchWelliOS
+      - Shared
+    info:
+      path: WatchWelliOS/Info.plist
+      properties:
+        CFBundleDisplayName: WatchWell
+        UILaunchScreen: {}
+        NSHealthShareUsageDescription: WatchWell reads heart rate, HRV, respiratory rate and sleep data to compute your personal stress and sleep scores.
+        NSHealthUpdateUsageDescription: WatchWell saves mindful sessions when you complete a breathing exercise.
+        UIBackgroundModes: [processing]
+    entitlements:
+      path: WatchWelliOS/WatchWelliOS.entitlements
+      properties:
+        com.apple.developer.healthkit: true
+        com.apple.developer.healthkit.background-delivery: true
+    dependencies:
+      - target: WatchWellWatch
+
+  WatchWellWatch:
+    type: application
+    platform: watchOS
+    sources:
+      - path: WatchWellWatch
+        excludes: ["Complications/**"]
+      - Shared
+    info:
+      path: WatchWellWatch/Info.plist
+      properties:
+        CFBundleDisplayName: WatchWell
+        WKCompanionAppBundleIdentifier: com.example.watchwell.WatchWelliOS
+        WKApplication: true
+        NSHealthShareUsageDescription: WatchWell reads heart rate, HRV, respiratory rate and sleep data to compute your personal stress and sleep scores.
+        NSHealthUpdateUsageDescription: WatchWell saves mindful sessions when you complete a breathing exercise.
+    entitlements:
+      path: WatchWellWatch/WatchWellWatch.entitlements
+      properties:
+        com.apple.developer.healthkit: true
+        com.apple.developer.healthkit.background-delivery: true
+    dependencies:
+      - target: WatchWellComplications
+
+  WatchWellComplications:
+    type: app-extension
+    platform: watchOS
+    sources:
+      - WatchWellWatch/Complications
+      - Shared/Models
+      - Shared/Constants.swift
+    info:
+      path: WatchWellWatch/Complications/Info.plist
+      properties:
+        CFBundleDisplayName: WatchWell
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
