@@ -187,7 +187,7 @@ uvicorn app.main:app --reload
 
 ### Xcode Setup
 
-1. Open `WatchWell.xcodeproj`
+1. Generate the project with [XcodeGen](https://github.com/yonaskolb/XcodeGen) (`brew install xcodegen && xcodegen generate`), then open `WatchWell.xcodeproj`
 2. Add **Signing & Capabilities → HealthKit** to both the iOS and watchOS targets (enable Background Delivery)
 3. Add the permission descriptions to `Info.plist`
    - `NSHealthShareUsageDescription`

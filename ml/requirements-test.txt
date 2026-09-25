@@ -1,0 +1,5 @@
+# Lightweight deps for running the ml/ test suite (CI skips torch/coremltools).
+numpy>=1.26
+pandas>=2.2
+scikit-learn>=1.5
+pytest>=8.0
